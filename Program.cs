@@ -17,7 +17,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseCors("SuperHeroOrigins");
+app.UseCors(policyName: "SuperHeroOrigins");
 
 app.UseHttpsRedirection();
 
