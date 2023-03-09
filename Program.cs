@@ -1,4 +1,8 @@
-﻿var builder = WebApplication.CreateBuilder(args);
+﻿using backend.Data;
+using Microsoft.EntityFrameworkCore;
+using Npgsql.EntityFrameworkCore.PostgreSQL;
+
+var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
@@ -6,7 +10,18 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddCors(options => options.AddPolicy(name: "SuperHeroOrigins", policy => { policy.WithOrigins("http://localhost:55203").AllowAnyMethod().AllowAnyHeader(); }));
+builder.Services.AddDbContext<DataContext>(options =>
+{
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
+builder.Services.AddCors(options =>
+    options.AddPolicy(
+        name: "SuperHeroOrigins",
+        policy => {
+            policy.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader();
+        }
+    )
+);
 
 var app = builder.Build();
 

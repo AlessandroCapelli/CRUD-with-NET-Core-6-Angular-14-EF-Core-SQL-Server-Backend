@@ -3,9 +3,7 @@ namespace backend
 {
 	public class SuperHero
 	{
-		public SuperHero()
-		{
-		}
+		public SuperHero() { }
 
 		public int Id { get; set; }
 
